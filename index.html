@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fender Movies</title>
+<style>
+    body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background-color: #000;
+        color: #fff;
+    }
+
+    header {
+        background-color: #111;
+        padding: 20px;
+        text-align: center;
+        font-size: 2.2em;
+        font-weight: bold;
+        letter-spacing: 2px;
+        border-bottom: 2px solid #0d47a1;
+    }
+
+    nav {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        background-color: #111;
+        padding: 12px 0;
+    }
+
+    nav a {
+        color: #fff;
+        text-decoration: none;
+        font-weight: bold;
+        padding: 8px 16px;
+        border-radius: 5px;
+        transition: background 0.2s;
+    }
+
+    nav a:hover {
+        background-color: #0d47a1;
+    }
+
+    /* Zoekbalk */
+    .search-container {
+        display: flex;
+        justify-content: center;
+        padding: 20px;
+        background-color: #111;
+    }
+
+    .search-container input {
+        width: 300px;
+        padding: 10px;
+        border-radius: 5px;
+        border: none;
+        outline: none;
+        font-size: 1em;
+    }
+
+    .movies {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+        gap: 20px;
+        padding: 20px;
+    }
+
+    .movie-card {
+        position: relative;
+        background-color: #111;
+        border: 1px solid #222;
+        border-radius: 10px;
+        overflow: hidden;
+        transition: transform 0.2s, border 0.2s;
+    }
+
+    .movie-card:hover {
+        transform: scale(1.05);
+        border: 1px solid #0d47a1;
+    }
+
+    .movie-card img {
+        width: 100%;
+        height: 320px;
+        object-fit: cover;
+        display: block;
+    }
+
+    .movie-info {
+        padding: 10px;
+    }
+
+    .movie-info h3 {
+        margin: 5px 0;
+        font-size: 1.2em;
+    }
+
+    .movie-info p {
+        margin: 0;
+        font-size: 0.9em;
+        color: #ccc;
+    }
+
+    /* Overlay voor hover knoppen */
+    .overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.7);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        gap: 10px;
+        opacity: 0;
+        transition: opacity 0.3s;
+    }
+
+    .movie-card:hover .overlay {
+        opacity: 1;
+    }
+
+    .overlay a {
+        padding: 10px 20px;
+        background-color: #0d47a1;
+        color: #fff;
+        text-decoration: none;
+        border-radius: 5px;
+        font-weight: bold;
+        transition: background 0.2s;
+    }
+
+    .overlay a:hover {
+        background-color: #1976d2;
+    }
+
+    footer {
+        text-align: center;
+        padding: 20px;
+        background-color: #111;
+        border-top: 2px solid #0d47a1;
+        margin-top: 20px;
+    }
+</style>
+</head>
+<body>
+
+<header>Fender Movies Swagger</header>
+
+<nav>
+    <a href="#">Home</a>
+    <a href="#">Popular</a>
+    <a href="#">Genres</a>
+    <a href="#">Contact</a>
+</nav>
+
+<!-- Zoekbalk -->
+<div class="search-container">
+    <input type="text" id="searchInput" placeholder="Search movies..." onkeyup="searchMovies()">
+</div>
+
+<div class="movies" id="moviesContainer">
+
+    <div class="movie-card">
+        <img src="data:image/jpeg;base64,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" alt="The King's Man">
+        <div class="movie-info">
+            <h3>S-01 E-01</h3>
+            <p>2021 ‧ Sport </p>
+        </div>
+        <div class="overlay">
+            <a href="
+https://xstreamx.films365.org/tv/631faa81-772e-4006-8055-26179b435c6a/Swagger+S01E01" target="_blank">Stream</a>
+            <a href="https://xdownloaderx.films365.org/tv/631faa81-772e-4006-8055-26179b435c6a/Swagger+S01E01" target="_blank">Download</a>
+        </div>
+    </div>
+
+    <div class="movie-card">
+        <img src="image link" alt="not uploaded yet">
+        <div class="movie-info">
+            <h3>S-01 E-01</h3>
+            <p>2021 ‧ Sport </p>
+        </div>
+        <div class="overlay">
+            <a href="link naar epside stream" target="_blank">Stream</a>
+            <a href="link naar epside download" target="_blank">Download</a>
+        </div>
+    </div>
+
+    <div class="movie-card">
+        <img src="image link" alt="not uploaded yet">
+        <div class="movie-info">
+            <h3>S-01 E-01</h3>
+            <p>2021 ‧ Sport </p>
+        </div>
+        <div class="overlay">
+            <a href="link naar epside stream" target="_blank">Stream</a>
+            <a href="link naar epside download" target="_blank">Download</a>
+        </div>
+    </div>
+
+    <div class="movie-card">
+        <img src="image link" alt="not uploaded yet">
+        <div class="movie-info">
+            <h3>S-01 E-01</h3>
+            <p>2021 ‧ Sport </p>
+        </div>
+        <div class="overlay">
+            <a href="link naar epside stream" target="_blank">Stream</a>
+            <a href="link naar epside download" target="_blank">Download</a>
+        </div>
+    </div>
+
+    <div class="movie-card">
+        <img src="image link" alt="not uploaded yet">
+        <div class="movie-info">
+            <h3>S-01 E-01</h3>
+            <p>2021 ‧ Sport </p>
+        </div>
+        <div class="overlay">
+            <a href="link naar epside stream" target="_blank">Stream</a>
+            <a href="link naar epside download" target="_blank">Download</a>
+        </div>
+    </div>
+
+
+    <!-- Voeg hier meer movie-cards toe -->
+
+</div>
+
+
+<footer>
+    &copy; 2025 Fender Movies. All rights reserved.
+</footer>
+
+<script>
+function searchMovies() {
+    const input = document.getElementById('searchInput').value.toLowerCase();
+    const movies = document.getElementById('moviesContainer').getElementsByClassName('movie-card');
+
+    for (let i = 0; i < movies.length; i++) {
+        const title = movies[i].getElementsByTagName('h3')[0].innerText.toLowerCase();
+        if (title.includes(input)) {
+            movies[i].style.display = "";
+        } else {
+            movies[i].style.display = "none";
+        }
+    }
+}
+</script>
+
+</body>
+</html>
