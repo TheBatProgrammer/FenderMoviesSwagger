@@ -5,164 +5,47 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Fender Movies</title>
 <style>
-    body {
-        margin: 0;
-        font-family: Arial, sans-serif;
-        background-color: #000;
-        color: #fff;
-    }
-
-    header {
-        background-color: #111;
-        padding: 20px;
-        text-align: center;
-        font-size: 2.2em;
-        font-weight: bold;
-        letter-spacing: 2px;
-        border-bottom: 2px solid #0d47a1;
-    }
-
-    nav {
-        display: flex;
-        justify-content: center;
-        gap: 20px;
-        background-color: #111;
-        padding: 12px 0;
-    }
-
-    nav a {
-        color: #fff;
-        text-decoration: none;
-        font-weight: bold;
-        padding: 8px 16px;
-        border-radius: 5px;
-        transition: background 0.2s;
-    }
-
-    nav a:hover {
-        background-color: #0d47a1;
-    }
-
-    /* Zoekbalk */
-    .search-container {
-        display: flex;
-        justify-content: center;
-        padding: 20px;
-        background-color: #111;
-    }
-
-    .search-container input {
-        width: 300px;
-        padding: 10px;
-        border-radius: 5px;
-        border: none;
-        outline: none;
-        font-size: 1em;
-    }
-
-    .movies {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-        gap: 20px;
-        padding: 20px;
-    }
-
-    .movie-card {
-        position: relative;
-        background-color: #111;
-        border: 1px solid #222;
-        border-radius: 10px;
-        overflow: hidden;
-        transition: transform 0.2s, border 0.2s;
-    }
-
-    .movie-card:hover {
-        transform: scale(1.05);
-        border: 1px solid #0d47a1;
-    }
-
-    .movie-card img {
-        width: 100%;
-        height: 320px;
-        object-fit: cover;
-        display: block;
-    }
-
-    .movie-info {
-        padding: 10px;
-    }
-
-    .movie-info h3 {
-        margin: 5px 0;
-        font-size: 1.2em;
-    }
-
-    .movie-info p {
-        margin: 0;
-        font-size: 0.9em;
-        color: #ccc;
-    }
-
-    /* Overlay voor hover knoppen */
-    .overlay {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0, 0, 0, 0.7);
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        flex-direction: column;
-        gap: 10px;
-        opacity: 0;
-        transition: opacity 0.3s;
-    }
-
-    .movie-card:hover .overlay {
-        opacity: 1;
-    }
-
-    .overlay a {
-        padding: 10px 20px;
-        background-color: #0d47a1;
-        color: #fff;
-        text-decoration: none;
-        border-radius: 5px;
-        font-weight: bold;
-        transition: background 0.2s;
-    }
-
-    .overlay a:hover {
-        background-color: #1976d2;
-    }
-
-    footer {
-        text-align: center;
-        padding: 20px;
-        background-color: #111;
-        border-top: 2px solid #0d47a1;
-        margin-top: 20px;
-    }
+  body { margin: 0; font-family: Arial, sans-serif; background-color: #000; color: #fff; }
+  header { background-color: #111; padding: 20px; text-align: center; font-size: 2.2em; font-weight: bold; letter-spacing: 2px; border-bottom: 2px solid #0d47a1; }
+  nav { display: flex; justify-content: center; gap: 20px; background-color: #111; padding: 12px 0; }
+  nav a { color: #fff; text-decoration: none; font-weight: bold; padding: 8px 16px; border-radius: 5px; transition: background 0.2s; }
+  nav a:hover { background-color: #0d47a1; }
+  /* Extra button link */
+  .btn { padding: 14px 32px; border: none; border-radius: 12px; background: linear-gradient(90deg, #ff0000, #b30000); color: white; font-size: 20px; cursor: pointer; transition: 0.2s ease; text-decoration: none; margin: 10px auto; display: inline-block; }
+  .btn:hover { transform: scale(1.05); background: linear-gradient(90deg, #ff4d4d, #cc0000); }
+  /* Zoekbalk */
+  .search-container { display: flex; justify-content: center; padding: 20px; background-color: #111; }
+  .search-container input { width: 300px; padding: 10px; border-radius: 5px; border: none; outline: none; font-size: 1em; }
+  .movies { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 20px; padding: 20px; }
+  .movie-card { position: relative; background-color: #111; border: 1px solid #222; border-radius: 10px; overflow: hidden; transition: transform 0.2s, border 0.2s; }
+  .movie-card:hover { transform: scale(1.05); border: 1px solid #0d47a1; }
+  .movie-card img { width: 100%; height: 320px; object-fit: cover; display: block; }
+  .movie-info { padding: 10px; }
+  .movie-info h3 { margin: 5px 0; font-size: 1.2em; }
+  .movie-info p { margin: 0; font-size: 0.9em; color: #ccc; }
+  /* Overlay voor hover knoppen */
+  .overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.7); display: flex; justify-content: center; align-items: center; flex-direction: column; gap: 10px; opacity: 0; transition: opacity 0.3s; }
+  .movie-card:hover .overlay { opacity: 1; }
+  .overlay a { padding: 10px 20px; background-color: #0d47a1; color: #fff; text-decoration: none; border-radius: 5px; font-weight: bold; transition: background 0.2s; }
+  .overlay a:hover { background-color: #1976d2; }
+  footer { text-align: center; padding: 20px; background-color: #111; border-top: 2px solid #0d47a1; margin-top: 20px; }
 </style>
 </head>
 <body>
 
 <header>Fender Movies Swagger</header>
 
+<!-- Extra button naar FenderMovies -->
+<a href="https://fendermovies.vercel.app/" class="btn" target="_blank">Ga naar FenderMovies</a>
+
 <nav>
-    <a href="#">Home</a>
-    <a href="#">Popular</a>
-    <a href="#">Genres</a>
-    <a href="#">Contact</a>
+  <a href="#">Home</a>
+  <a href="#">Popular</a>
+  <a href="#">Genres</a>
+  <a href="#">Contact</a>
 </nav>
 
 <!-- Zoekbalk -->
-<div class="search-container">
-    <input type="text" id="searchInput" placeholder="Search movies..." onkeyup="searchMovies()">
-</div>
-
 <div class="movies" id="moviesContainer">
 
     <div class="movie-card">
@@ -398,24 +281,16 @@ https://xdownloaderx.films365.org/tv/da37227c-ac67-44c3-a529-5a9bf3ca83b1/Swagge
 
 </div>
 
-
-<footer>
-    &copy; 2025 Fender Movies. All rights reserved.
-</footer>
+<footer>© 2025 Fender Movies</footer>
 
 <script>
 function searchMovies() {
-    const input = document.getElementById('searchInput').value.toLowerCase();
-    const movies = document.getElementById('moviesContainer').getElementsByClassName('movie-card');
-
-    for (let i = 0; i < movies.length; i++) {
-        const title = movies[i].getElementsByTagName('h3')[0].innerText.toLowerCase();
-        if (title.includes(input)) {
-            movies[i].style.display = "";
-        } else {
-            movies[i].style.display = "none";
-        }
-    }
+  const input = document.getElementById('searchInput').value.toLowerCase();
+  const movies = document.getElementById('moviesContainer').getElementsByClassName('movie-card');
+  for (let i = 0; i < movies.length; i++) {
+    const title = movies[i].querySelector('.movie-info h3').innerText.toLowerCase();
+    movies[i].style.display = title.includes(input) ? '' : 'none';
+  }
 }
 </script>
 
